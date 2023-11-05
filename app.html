@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pop!</title>
+</head>
+<body>
+    <script>
+        function download(data, filename, type) {
+            var type = document.getElementById("fileext").value;
+            var filename = document.getElementById("filename").value;
+            var data = document.getElementById("textarea").value;
+            var file = new Blob([data], {type: type});
+            if (window.navigator.msSaveOrOpenBlob) // IE10+
+                window.navigator.msSaveOrOpenBlob(file, filename);
+            else { // Others
+                var a = document.createElement("a"),
+                        url = URL.createObjectURL(file);
+                a.href = url;
+                if (type != "") {
+                    a.download = (filename + "." + type);
+                } else {
+                    a.download = (filename + ".txt");
+
+                }
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);  
+                }, 0); 
+            }
+        }
+        function resettextarea() {
+            document.getElementById("textarea").value = null;
+        }
+        function settings() {
+            location = ('app.html#settings')
+        }
+        function loadfile() {
+            document.getElementById("textarea").value = document.getElementById('openfile').value;
+        }
+             </script>
+        <h1 style="color:rgb(132, 71, 255); font-size:7rem;">pop!</h1><a href="index.html" style="margin-right:15px"><button>🏠 Home</button></a>
+        <h2>the textarea is resizable!</h2>
+        <textarea name="" id="textarea" cols="68" rows="10"></textarea>
+        <br>
+        <input type="text" placeholder="file name" style="margin-right:19px;" id="filename"><button style="margin-right:15px;" onclick="settings()">⚙️ settings</button><button style="margin-right:15px;" onclick="resettextarea()">💥 reset</button><button onclick="download()">📜 save</button>
+        <br><br><br><span id="reset"></span>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <center>
+            <span style="background-color:rgb(132, 71, 255); padding-left:958px; color:rgb(132, 71, 255);">.</span>
+        <h1 style="color:rgb(132, 71, 255); font-weight:600;" id="settings">SETTINGS</h1>
+        <br>DISCLAIMER: leave blank for <b>.txt</b>!
+        <br><br><input type="text" id="fileext" placeholder="file extension">
+        <br><br><br><input type="file" id="openfile" style="margin-right:15px;"><br><br><button onclick="loadfile()">🎴 load provided file</button>
+        </center>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
